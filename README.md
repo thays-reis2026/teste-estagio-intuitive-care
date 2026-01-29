@@ -44,4 +44,27 @@ Nesta etapa, o objetivo foi consolidar as demonstrações contábeis de três tr
 
    - **Estabilidade de Conexão:**:"Optei pelo uso de links diretos para os trimestres de 2024 para garantir a estabilidade do download, visto que o servidor FTP da ANS apresenta instabilidades frequentes em buscas dinâmicas."
 
+
    - **Nota sobre Enriquecimento de Dados**: Durante o desenvolvimento, o servidor da ANS apresentou erro 404 nos links de dados cadastrais. Para garantir a execução do Desafio 2, utilizei uma amostra local dos dados cadastrais (operadoras_ativas.csv), mantendo a lógica de processamento e join pronta para quando o servidor for restabelecido.
+
+   ## 🗄️ Desafio 3 - Banco de Dados e Análise SQL
+
+Nesta etapa, os dados foram estruturados em um banco de dados relacional para permitir análises complexas e garantir a integridade das informações financeiras.
+
+### 🛠️ Decisões Técnicas (Trade-offs)
+
+1. **Estratégia de Normalização**:
+   - **Decisão**: Optei pela **Opção B (Tabelas Normalizadas)**.
+   - **Justificativa**: Separei os dados cadastrais (`operadoras`) dos dados financeiros (`despesas_consolidadas`). Isso evita a redundância de dados e segue as melhores práticas de modelagem de dados (KISS).
+
+2. **Tipos de Dados e Precisão**:
+   - **Decisão**: Utilização de `DECIMAL(15, 2)` para valores monetários.
+   - **Justificativa**: O uso de `DECIMAL` em vez de `FLOAT` é essencial em sistemas de saúde e financeiros para evitar erros de arredondamento e garantir a precisão dos centavos.
+
+3. **Resiliência em Cálculos**:
+   - **Decisão**: Uso da função `NULLIF` na Query de crescimento.
+   - **Justificativa**: Previne o erro de "divisão por zero" em operadoras que iniciaram o ano com despesa zero, garantindo que o relatório seja gerado sem interrupções.
+
+4. **Performance em Consultas**:
+   - **Decisão**: Uso de **CTEs (Common Table Expressions)** para cálculos de média geral.
+   - **Justificativa**: Melhora a legibilidade do código e facilita a manutenção, permitindo que o avaliador entenda a lógica de comparação em etapas claras.
